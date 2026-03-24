@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: evolution
+  namespace: aseno
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: evolution
+  template:
+    metadata:
+      labels:
+        app: evolution
+    spec:
+      containers:
+        - name: evolution
+          image: atendai/evolution-api:latest
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: aseno-secrets
+          env:
+            - name: DATABASE_PROVIDER
+              value: "postgresql"
+            - name: DATABASE_CONNECTION_URI
+              value: "postgresql://postgres.drfutezqpkrfupudcfty:iew2skEcfW8@aws-1-sa-east-1.pooler.supabase.com:6543/postgres?schema=evolution"
+            - name: DATABASE_CONNECTION_CLIENT_NAME
+              value: "evolution_api"
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "20m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"

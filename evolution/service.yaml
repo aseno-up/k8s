@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: evolution
+  namespace: aseno
+spec:
+  selector:
+    app: evolution
+  ports:
+    - port: 80
+      targetPort: 8080
