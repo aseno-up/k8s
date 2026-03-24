@@ -5,6 +5,8 @@ metadata:
   namespace: aseno
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: caddy
@@ -14,6 +16,7 @@ spec:
         app: caddy
     spec:
       hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
       containers:
         - name: caddy
           image: caddy:2-alpine
@@ -38,4 +41,5 @@ spec:
           configMap:
             name: caddy-config
         - name: caddy-data
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: caddy-data

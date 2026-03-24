@@ -15,17 +15,35 @@ spec:
     spec:
       containers:
         - name: evolution
-          image: atendai/evolution-api:latest
+          image: evoapicloud/evolution-api:v2.3.7
           ports:
             - containerPort: 8080
           envFrom:
             - secretRef:
                 name: aseno-secrets
           env:
+            - name: SERVER_URL
+              valueFrom:
+                secretKeyRef:
+                  name: aseno-secrets
+                  key: EVOLUTION_SERVER_URL
+            - name: AUTHENTICATION_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aseno-secrets
+                  key: EVOLUTION_AUTH_KEY
             - name: DATABASE_PROVIDER
               value: "postgresql"
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: aseno-secrets
+                  key: EVOLUTION_DATABASE_URL
             - name: DATABASE_CONNECTION_URI
-              value: "postgresql://postgres.drfutezqpkrfupudcfty:iew2skEcfW8@aws-1-sa-east-1.pooler.supabase.com:6543/postgres?schema=evolution"
+              valueFrom:
+                secretKeyRef:
+                  name: aseno-secrets
+                  key: EVOLUTION_DATABASE_URL
             - name: DATABASE_CONNECTION_CLIENT_NAME
               value: "evolution_api"
           resources:
