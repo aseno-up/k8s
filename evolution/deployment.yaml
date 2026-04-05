@@ -46,6 +46,17 @@ spec:
                   key: EVOLUTION_DATABASE_URL
             - name: DATABASE_CONNECTION_CLIENT_NAME
               value: "evolution_api"
+            - name: CHATWOOT_ENABLED
+              value: "true"
+            - name: CACHE_REDIS_ENABLED
+              value: "true"
+            - name: CACHE_REDIS_URI
+              valueFrom:
+                secretKeyRef:
+                  name: aseno-secrets
+                  key: REDIS_URL
+            - name: CACHE_REDIS_PREFIX_KEY
+              value: "evolution"
           resources:
             requests:
               memory: "64Mi"
